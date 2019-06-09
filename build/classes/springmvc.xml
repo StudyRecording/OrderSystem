@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/mvc
+        https://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+	
+	<context:component-scan base-package="hu.ordersystem.controller"></context:component-scan>
+	<mvc:annotation-driven></mvc:annotation-driven>
+	
+ 	<mvc:resources location="/layui/" mapping="/layui/**"></mvc:resources>
+ 	<mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+ 	<mvc:resources location="/img/" mapping="/img/**"></mvc:resources>
+	
+	<!-- 视图解析 -->
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/WEB-INF/page/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<mvc:interceptors>
+	
+		<bean class="hu.ordersystem.interceptors.AdminLoginInterceptors"></bean>
+		<!-- <mvc:interceptor>
+			<mvc:mapping path="/ordersystem/login"/>
+			<bean class="hu.ordersystem.interceptors.AdminLoginInterceptors"></bean>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/ordersystem/checkAdmin"/>
+			<bean class="hu.ordersystem.interceptors.AdminLoginInterceptors"></bean>
+		</mvc:interceptor>  -->
+		
+	</mvc:interceptors>
+	
+	
+</beans>

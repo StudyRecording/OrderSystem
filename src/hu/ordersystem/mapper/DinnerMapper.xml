@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="hu.ordersystem.mapper.DinnerMapper">
+
+	<resultMap type="hu.ordersystem.poji.Dining" id="diningMap">
+		<id property="id" column="id"/>
+		<result property="personnelId" column="personnel_id"/>
+		<result property="orderNumber" column="order_number"/>
+		<result property="dinnerNumber" column="dinner_number"/>
+		<result property="orderDate" column="order_date"/>
+		<result property="dinnerDate" column="dinner_date"/>
+		<result property="dinnerTime" column="dinner_time"/>
+		<result property="dinnerWay" column="dinner_way"/>
+		<result property="dinnerInstructions" column="dinner_instructions"/>
+		<association property="personnel" select="hu.ordersystem.mapper.PersonnelMapper.selPersonnelById" column="personnel_id"></association>
+	</resultMap>
+	
+	<select id="selPageDinner" resultMap="diningMap">
+		select * from dining limit #{param1},#{param2}
+	</select>
+
+	<select id="selPageDinnerByDinnerDate" resultMap="diningMap">
+		select * from dining where str_to_date(dinner_date,'%Y-%m-%d') &gt;= str_to_date(#{param3},'%Y-%m-%d') and str_to_date(dinner_date,'%Y-%m-%d') &lt;= str_to_date(#{param4},'%Y-%m-%d') limit #{param1},#{param2}
+	</select>
+</mapper>  

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <!-- N+1方式查询personnel表 -->
+<mapper namespace="hu.ordersystem.mapper.PersonnelMapper">
+	<cache></cache>
+	<resultMap type="hu.ordersystem.poji.Personnel" id="personnelMap">
+		<id property="id" column="id"/>
+		<result property="personnelName" column="personnel_name"/>
+		<result property="personnelSex" column="personnel_sex"/>
+		<result property="personnelPhone" column="personnel_phone"/>
+		<result property="personnelIdnum" column="personnel_idnum"/>
+		<result property="departId" column="depart_id"/>
+		<result property="restaurantId" column="restaurant_id"/>
+		<result property="personnelDate" column="personnel_date"/>
+		<association property="restaurant" select="hu.ordersystem.mapper.RestaurantMapper.selRestaurantById" column="restaurant_id"></association>
+		<association property="depart" select="hu.ordersystem.mapper.DepartMapper.selDepartById" column="depart_id"></association>
+	</resultMap>
+	
+	<select id="selPersonnel" resultMap="personnelMap" useCache="true">
+		select * from personnel
+	</select>
+	
+	<!-- 查询id>param1并且id<param2之间的订餐人信息，用于分页查询 -->
+	<!-- &gt;大于号的转义字符，&lt;小于号的转义字符 (XML真坑！)-->
+	<select id="selPersonnelPage" resultMap="personnelMap" useCache="true">
+		select * from personnel where id &gt;= #{param1} and id &lt;= #{param2}
+	</select>
+	
+	<!-- 根据id查询信息 -->
+	<select id="selPersonnelById" resultMap="personnelMap" parameterType="int">
+		select * from personnel where id=#{0}
+	</select>
+	
+	<!-- 查询订餐人数据总数数据 -->
+	<select id="selAllPersonnelCount" resultType="int" useCache="true">
+		select count(*) from personnel
+	</select>
+	
+	<!-- 查询特定条件的订餐人信息(运用了Mybatis的动态SQL) -->
+	<select id="selPersonnelByCondition" resultMap="personnelMap" useCache="true">
+		select * from personnel 
+		<where>
+			<if test="personnelName != null and personnelName != '' ">
+				personnel_name=#{personnelName}
+			</if>
+			<if test="personnelIdnum != null and personnelIdnum != '' ">
+				and personnel_idnum=#{personnelIdnum}
+			</if>
+			<if test="departName != null and departName != '' ">
+				and depart_id=(select id from depart where depart_name=#{departName})
+			</if>
+			<if test="restaurantName != null and restaurantName != '' ">
+				and restaurant_id=(select id from restaurant where restaurant_name=#{restaurantName})
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询特定条件的订餐人信息的数量(运用了Mybatis的动态SQL) -->
+	<select id="selPersonnelByConditionCount" resultType="int" useCache="true">
+		select count(*) from personnel 
+		<where>
+			<if test="personnelName != null and personnelName != '' ">
+				personnel_name=#{personnelName}
+			</if>
+			<if test="personnelIdnum != null and personnelIdnum != '' ">
+				and personnel_idnum=#{personnelIdnum}
+			</if>
+			<if test="departName != null and departName != '' ">
+				and depart_id=(select id from depart where depart_name=#{departName})
+			</if>
+			<if test="restaurantName != null and restaurantName != '' ">
+				and restaurant_id=(select id from restaurant where restaurant_name=#{restaurantName})
+			</if>
+		</where>
+	</select>	
+	
+	<!-- 根据手机号查找一条符合的信息 -->
+	<select id="selPersonnelByPhoneLimitOne" resultType="hu.ordersystem.poji.Personnel">
+		select id,personnel_name personnelName,personnel_sex personnelSex,personnel_phone personnelPhone,
+		personnel_idnum personnelIdnum,depart_id departId,restaurant_id restaurantId,
+		personnel_date personnelDate from personnel where personnel_phone=#{phone} limit 1
+	</select>
+	
+	<!-- 根据手机号查找一条完整的信息 -->
+	<select id="selPersonnelByPhone" resultMap="personnelMap">
+		select * from personnel where personnel_phone=#{0} limit 1
+	</select>
+	
+	<!-- 插入一条订餐人信息 -->
+	<insert id="insPersonnel" parameterType="hu.ordersystem.poji.Personnel">
+		insert into personnel values(default,#{personnelName},#{personnelSex},#{personnelPhone},#{personnelIdnum},#{departId},#{restaurantId},#{personnelDate})
+	</insert>
+	
+	<!-- 根据手机号和创建日期查找信息 -->
+	<select id="selPersonnelByPhoneAndDate" parameterType="hu.ordersystem.poji.Personnel" resultType="hu.ordersystem.poji.Personnel">
+		select id,personnel_name personnelName,personnel_sex personnelSex,personnel_phone personnelPhone,
+		personnel_idnum personnelIdnum,depart_id departId,restaurant_id restaurantId,
+		personnel_date personnelDate from personnel where personnel_phone=#{personnelPhone} and personnel_date=#{personnelDate} order by id DESC limit 1
+	</select> 
+	
+	<!-- 根据id查询个人信息 -->
+	<!-- <select id="selPersonnelById" resultType="hu.ordersystem.poji.Personnel" parameterType="int">
+		select id,personnel_name personnelName,personnel_sex personnelSex,personnel_phone personnelPhone,
+		personnel_idnum personnelIdnum,depart_id departId,restaurant_id restaurantId,
+		personnel_date personnelDate from personnel where id=#{0}
+	</select> -->
+	
+	<!-- 更新personnel信息 -->
+	<update id="udpPersonnelInfo" parameterType="hu.ordersystem.poji.Personnel">
+		update personnel set depart_id=#{departId},personnel_idnum=#{personnelIdnum},personnel_name=#{personnelName},
+		personnel_sex=#{personnelSex} where personnel_phone=#{personnelPhone}
+	</update>
+	
+</mapper>  
