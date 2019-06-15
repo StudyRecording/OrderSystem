@@ -131,9 +131,9 @@ INSERT INTO `personnel` VALUES (10, '刘二', 0, '17863293234', '341291197707597
 INSERT INTO `personnel` VALUES (11, '刘三', 1, '17863223234', '341293397707597681', 2, 1, '2014-12-02');
 INSERT INTO `personnel` VALUES (12, '张三', 1, '17863606234', '341221199702197681', 2, 2, '2019-11-01');
 INSERT INTO `personnel` VALUES (13, '李四', 1, '17863636234', '341221199202197681', 2, 3, '2019-05-08');
-INSERT INTO `personnel` VALUES (17, '六一', 1, '17863606813', NULL, 26, 4, '2019-05-09');
+INSERT INTO `personnel` VALUES (17, '六一', 1, '17863606765', NULL, 26, 4, '2019-05-09');
 INSERT INTO `personnel` VALUES (18, '张晓庆', 1, '17863306234', '341221199752197681', 2, 1, '2019-05-09');
-INSERT INTO `personnel` VALUES (19, '六一', 1, '17863606813', NULL, 26, 5, '2019-05-09');
+INSERT INTO `personnel` VALUES (19, '六一', 1, '17863606765', NULL, 26, 5, '2019-05-09');
 INSERT INTO `personnel` VALUES (20, '欣小萌', 3, '17863676912', NULL, 26, 5, '2019-05-09');
 INSERT INTO `personnel` VALUES (21, '二三', 0, '13034596799', '9876543', 2, 2, '2019-05-11');
 
@@ -155,7 +155,7 @@ CREATE TABLE `restaurant`  (
 -- Records of restaurant
 -- ----------------------------
 INSERT INTO `restaurant` VALUES (1, '西餐厅', '留学生公寓旁', '王五', '17863606817', 1);
-INSERT INTO `restaurant` VALUES (2, '东餐厅', '46号楼北', '刘赛赛', '17863606813', 1);
+INSERT INTO `restaurant` VALUES (2, '东餐厅', '46号楼北', '刘赛赛', '17863606765', 1);
 INSERT INTO `restaurant` VALUES (3, '百雅餐厅', '东门附近', '李四', '17863689876', 1);
 INSERT INTO `restaurant` VALUES (4, '老西餐厅', '西门', '张晓', '17856435907', 1);
 INSERT INTO `restaurant` VALUES (5, '蓝工', '软件', '胡', '14567893456', 1);
