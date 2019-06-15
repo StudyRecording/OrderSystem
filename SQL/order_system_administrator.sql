@@ -39,7 +39,7 @@ CREATE TABLE `administrator` (
 
 LOCK TABLES `administrator` WRITE;
 /*!40000 ALTER TABLE `administrator` DISABLE KEYS */;
-INSERT INTO `administrator` VALUES (1,'hupengcheng','hupengcheng','徐晓庆',0,'1234'),(2,'13034596788','000000','胡亚军',1,'2345678');
+INSERT INTO `administrator` VALUES (1,'huengeng','huengeng','xiaoxiao',0,'1234'),(2,'13034596098','000000','李四',1,'2345678');
 /*!40000 ALTER TABLE `administrator` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
